@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
+import { http, HttpResponse } from 'msw';
 import ProductList from '../../src/components/ProductList';
 import { server } from '../mocks/server';
-import { http, HttpResponse } from 'msw';
 
 describe('ProducList', () => {
   it('should render list of products', async () => {
