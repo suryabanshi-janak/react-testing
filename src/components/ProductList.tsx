@@ -1,23 +1,23 @@
-import axios, { AxiosError } from "axios";
-import { useEffect, useState } from "react";
-import { Product } from "../entities";
+import axios, { AxiosError } from 'axios';
+import { useEffect, useState } from 'react';
+import { Product } from '../entities';
 
 const ProductList = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [isLoading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+  const [error, setError] = useState('');
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
         setLoading(true);
-        const { data } = await axios.get("/products");
+        const { data } = await axios.get('/products');
         setProducts(data);
         setLoading(false);
       } catch (error) {
         setLoading(false);
         if (error instanceof AxiosError) setError(error.message);
-        else setError("An unexpected error occurred");
+        else setError('An unexpected error occurred');
       }
     };
     fetchProducts();
