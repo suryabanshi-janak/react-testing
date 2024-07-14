@@ -4,9 +4,11 @@ import {
   waitForElementToBeRemoved,
 } from '@testing-library/react';
 import { http, HttpResponse, delay } from 'msw';
+
 import ProductList from '../../src/components/ProductList';
 import { server } from '../mocks/server';
 import { db } from '../mocks/db';
+import { AllProviders } from '../AllProviders';
 
 describe('ProducList', () => {
   const productIds: number[] = [];
@@ -23,7 +25,7 @@ describe('ProducList', () => {
   });
 
   it('should render list of products', async () => {
-    render(<ProductList />);
+    render(<ProductList />, { wrapper: AllProviders });
 
     const list = await screen.findAllByRole('listitem');
     expect(list.length).toBeGreaterThan(0);
@@ -32,7 +34,7 @@ describe('ProducList', () => {
   it('should render no products available if no product is found', async () => {
     server.use(http.get('/products', () => HttpResponse.json([])));
 
-    render(<ProductList />);
+    render(<ProductList />, { wrapper: AllProviders });
 
     const message = await screen.findByText(/no products/i);
     expect(message).toBeInTheDocument();
@@ -41,7 +43,7 @@ describe('ProducList', () => {
   it('should render an error message when there is an error', async () => {
     server.use(http.get('/products', () => HttpResponse.error()));
 
-    render(<ProductList />);
+    render(<ProductList />, { wrapper: AllProviders });
 
     expect(await screen.findByText(/error/i)).toBeInTheDocument();
   });
@@ -54,13 +56,13 @@ describe('ProducList', () => {
       })
     );
 
-    render(<ProductList />);
+    render(<ProductList />, { wrapper: AllProviders });
 
     expect(await screen.findByText(/loading/i)).toBeInTheDocument();
   });
 
   it('should remove loading indicator after data is fetched', async () => {
-    render(<ProductList />);
+    render(<ProductList />, { wrapper: AllProviders });
 
     await waitForElementToBeRemoved(() => screen.queryByText(/loading/i));
   });
@@ -68,7 +70,7 @@ describe('ProducList', () => {
   it('should remove loading indicator if data fetching fails', async () => {
     server.use(http.get('/products', () => HttpResponse.error()));
 
-    render(<ProductList />);
+    render(<ProductList />, { wrapper: AllProviders });
 
     await waitForElementToBeRemoved(() => screen.queryByText(/loading/i));
   });
