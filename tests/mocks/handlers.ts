@@ -13,4 +13,5 @@ export const handlers = [
   //   return HttpResponse.json(product);
   // }),
   ...db.product.toHandlers('rest'),
+  ...db.category.toHandlers('rest'),
 ];
