@@ -2,6 +2,7 @@ import { PropsWithChildren } from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { CartProvider } from '../src/providers/CartProvider';
 import { Theme } from '@radix-ui/themes';
+import { Toaster } from 'react-hot-toast';
 
 export const AllProviders = ({ children }: PropsWithChildren) => {
   const queryClient = new QueryClient({
@@ -15,7 +16,10 @@ export const AllProviders = ({ children }: PropsWithChildren) => {
   return (
     <QueryClientProvider client={queryClient}>
       <CartProvider>
-        <Theme>{children}</Theme>
+        <Theme>
+          {children}
+          <Toaster />
+        </Theme>
       </CartProvider>
     </QueryClientProvider>
   );
